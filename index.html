@@ -1,0 +1,1909 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Precifica — Salvador Vivas Advocacia</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600;9..144,700&family=Work+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#eef1f5;
+    --surface:#ffffff;
+    --surface-2:#e3e8ee;
+    --ink:#16233a;
+    --ink-soft:#57626f;
+    --ink-faint:#8994a3;
+    --border:#d6dce3;
+    --accent:#1e3a5f;
+    --accent-strong:#14283f;
+    --accent-soft:#e1e8f0;
+    --accent-ink:#f3f6fa;
+    --brass:#6b7785;
+    --brass-soft:#e7eaee;
+    --flag:#a8452e;
+    --flag-soft:#f6e2dc;
+    --shadow: 0 1px 2px rgba(20,28,38,.05), 0 8px 24px -12px rgba(20,28,38,.18);
+    color-scheme: light;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#0d141d;
+      --surface:#131b26;
+      --surface-2:#182230;
+      --ink:#e8edf2;
+      --ink-soft:#a3aebb;
+      --ink-faint:#6d7885;
+      --border:#28323f;
+      --accent:#5b8fc7;
+      --accent-strong:#7fabd9;
+      --accent-soft:#1c2c3d;
+      --accent-ink:#0a1520;
+      --brass:#9aa5b1;
+      --brass-soft:#232a33;
+      --flag:#de8067;
+      --flag-soft:#3a241d;
+      --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+      color-scheme: dark;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#0d141d;
+    --surface:#131b26;
+    --surface-2:#182230;
+    --ink:#e8edf2;
+    --ink-soft:#a3aebb;
+    --ink-faint:#6d7885;
+    --border:#28323f;
+    --accent:#5b8fc7;
+    --accent-strong:#7fabd9;
+    --accent-soft:#1c2c3d;
+    --accent-ink:#0a1520;
+    --brass:#9aa5b1;
+    --brass-soft:#232a33;
+    --flag:#de8067;
+    --flag-soft:#3a241d;
+    --shadow: 0 1px 2px rgba(0,0,0,.3), 0 12px 28px -14px rgba(0,0,0,.6);
+    color-scheme: dark;
+  }
+
+  *{box-sizing:border-box;}
+  body{
+    margin:0; padding:0;
+    background:var(--bg);
+    color:var(--ink);
+    font-family:"Work Sans", -apple-system, sans-serif;
+    font-size:14px;
+    line-height:1.45;
+  }
+  img{max-width:100%}
+  h1,h2,h3,.serif{ font-family:"Fraunces", Georgia, serif; text-wrap:balance; }
+  .mono{ font-family:"IBM Plex Mono", ui-monospace, monospace; font-variant-numeric: tabular-nums; }
+  button, input, select, textarea{ font-family:inherit; color:inherit; }
+  button{ cursor:pointer; }
+  a{ color:var(--accent-strong); }
+
+  .app-shell{
+    max-width:1280px;
+    margin:0 auto;
+    padding:28px 20px 64px;
+    display:grid;
+    grid-template-columns: 216px minmax(0,1fr) 320px;
+    gap:24px;
+    align-items:start;
+  }
+  @media (max-width: 980px){
+    .app-shell{ grid-template-columns: 1fr; }
+    .rail{ order:1; flex-direction:row !important; align-items:center; justify-content:space-between; position:static !important; }
+    .rail .steps{ flex-direction:row; flex-wrap:wrap; }
+    .main{ order:2; }
+    .summary{ order:3; position:static !important; }
+  }
+
+  .app-shell.pops-view{ grid-template-columns: 240px minmax(0,1fr); }
+
+  /* ---- left rail ---- */
+  .rail{
+    position:sticky; top:20px;
+    display:flex; flex-direction:column; gap:28px;
+  }
+  .view-switch{ display:flex; gap:3px; background:var(--surface-2); border-radius:10px; padding:3px; }
+  .view-switch button{
+    all:unset; box-sizing:border-box; flex:1; text-align:center;
+    padding:7px 6px; border-radius:8px; font-size:12px; font-weight:600;
+    color:var(--ink-soft); cursor:pointer;
+  }
+  .view-switch button.active{ background:var(--surface); color:var(--accent-strong); box-shadow:var(--shadow); }
+  .pop-list{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:1px; max-height:calc(100vh - 220px); overflow-y:auto; }
+  .pop-list button{
+    all:unset; box-sizing:border-box;
+    display:flex; align-items:center; gap:9px;
+    width:100%; padding:8px 9px; border-radius:8px;
+    font-size:13px; color:var(--ink-soft);
+  }
+  .pop-list button .ic{ width:20px; height:20px; flex:none; display:flex; align-items:center; justify-content:center; font-size:13px; }
+  .pop-list button.active{ background:var(--accent-soft); color:var(--accent-strong); font-weight:600; }
+  .pop-list button:hover{ background:var(--surface-2); }
+  .pop-head{ padding:22px 24px 6px; }
+  .pop-head .eyebrow{ display:flex; align-items:center; gap:8px; }
+  .pop-head h1{ font-size:24px; margin:6px 0 6px; font-weight:600; }
+  .pop-head p{ margin:0 0 4px; color:var(--ink-soft); font-size:14px; max-width:68ch; }
+  .pop-actions{ display:flex; gap:8px; padding:4px 24px 20px; }
+  .brand{ display:flex; flex-direction:column; gap:2px; }
+  .brand .mark{
+    width:40px; height:40px; border-radius:10px;
+    background:var(--accent); color:var(--accent-ink);
+    display:flex; align-items:center; justify-content:center;
+    font-family:"Fraunces",serif; font-weight:600; font-size:17px;
+    margin-bottom:8px;
+  }
+  .brand .name{ font-family:"Fraunces",serif; font-weight:600; font-size:19px; }
+  .brand .tagline{ font-size:12px; color:var(--ink-soft); }
+
+  .steps{ list-style:none; margin:0; padding:0; display:flex; flex-direction:column; gap:2px; }
+  .steps button{
+    all:unset; box-sizing:border-box;
+    display:flex; align-items:center; gap:10px;
+    width:100%; padding:9px 10px; border-radius:8px;
+    font-size:13.5px; color:var(--ink-soft);
+  }
+  .steps button .n{
+    width:20px; height:20px; border-radius:50%; flex:none;
+    border:1px solid var(--border); font-size:11px;
+    display:flex; align-items:center; justify-content:center;
+    font-family:"IBM Plex Mono",monospace;
+  }
+  .steps button.active{ background:var(--accent-soft); color:var(--accent-strong); font-weight:600; }
+  .steps button.active .n{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); }
+  .steps button.done .n{ background:var(--surface-2); border-color:var(--border); color:var(--ink-soft); }
+  .steps button:disabled{ opacity:.45; cursor:not-allowed; }
+
+  .rail-foot{ margin-top:auto; display:flex; flex-direction:column; gap:6px; }
+  .ghost-btn{
+    all:unset; box-sizing:border-box; display:flex; align-items:center; gap:8px;
+    font-size:13px; color:var(--ink-soft); padding:8px 10px; border-radius:8px;
+  }
+  .ghost-btn:hover{ background:var(--surface-2); color:var(--ink); }
+
+  /* ---- main column ---- */
+  .card{
+    background:var(--surface); border:1px solid var(--border);
+    border-radius:14px; box-shadow:var(--shadow);
+  }
+  .step-head{ padding:22px 24px 4px; }
+  .eyebrow{ font-size:11px; letter-spacing:.08em; text-transform:uppercase; color:var(--brass); font-weight:600; }
+  .step-head h1{ font-size:26px; margin:6px 0 4px; font-weight:600; }
+  .step-head p{ margin:0 0 6px; color:var(--ink-soft); font-size:14.5px; max-width:60ch; }
+
+  .niche-grid{
+    display:grid; grid-template-columns:repeat(auto-fill,minmax(190px,1fr));
+    gap:12px; padding:18px 24px 24px;
+  }
+  .niche-card{
+    all:unset; box-sizing:border-box;
+    border:1px solid var(--border); border-radius:12px; padding:16px;
+    display:flex; flex-direction:column; gap:8px; background:var(--surface);
+    transition:border-color .12s, background .12s;
+  }
+  .niche-card:hover{ border-color:var(--accent); }
+  .niche-card.selected{ border-color:var(--accent); background:var(--accent-soft); }
+  .niche-card .icon{ font-size:22px; }
+  .niche-card .label{ font-weight:600; font-size:15px; }
+  .niche-card .meta{ font-size:12px; color:var(--ink-soft); }
+  .niche-card .base{ font-size:12.5px; color:var(--brass); font-family:"IBM Plex Mono",monospace; margin-top:auto; }
+  .niche-add{
+    border:1px dashed var(--border); border-radius:12px; padding:16px;
+    display:flex; align-items:center; justify-content:center; gap:8px;
+    color:var(--ink-soft); font-size:13px; background:transparent;
+  }
+  .niche-add:hover{ border-color:var(--ink-faint); color:var(--ink); }
+
+  .scope-list{ list-style:none; margin:0; padding:6px 24px 22px; display:flex; flex-direction:column; gap:0; }
+  .scope-group{ padding:14px 0; border-top:1px solid var(--border); }
+  .scope-group:first-child{ border-top:none; }
+  .scope-group h3{ font-size:12px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); font-weight:600; margin:0 0 8px; font-family:"Work Sans",sans-serif; }
+  .scope-item{ display:flex; gap:10px; padding:6px 0; font-size:14px; align-items:flex-start; }
+  .scope-item .dot{ width:5px; height:5px; border-radius:50%; background:var(--accent); margin-top:8px; flex:none; }
+
+  .q-list{ display:flex; flex-direction:column; gap:12px; padding:16px 24px 24px; }
+  .q-card{ border:1px solid var(--border); border-radius:12px; padding:16px 18px; }
+  .q-card .q-label{ font-weight:600; font-size:14.5px; margin-bottom:2px; }
+  .q-card .q-hint{ font-size:12.5px; color:var(--ink-soft); margin-bottom:12px; }
+  .q-opts{ display:flex; gap:8px; flex-wrap:wrap; }
+  .opt-btn{
+    all:unset; box-sizing:border-box;
+    padding:8px 14px; border-radius:8px; border:1px solid var(--border);
+    font-size:13.5px; color:var(--ink-soft);
+  }
+  .opt-btn:hover{ border-color:var(--accent); }
+  .opt-btn.active{ background:var(--accent); border-color:var(--accent); color:var(--accent-ink); font-weight:600; }
+  .opt-btn .pct{ font-family:"IBM Plex Mono",monospace; font-size:11px; opacity:.8; margin-left:6px; }
+
+  .step-nav{ display:flex; justify-content:space-between; padding:4px 24px 24px; gap:10px; }
+  .btn{
+    all:unset; box-sizing:border-box; padding:10px 18px; border-radius:9px;
+    font-size:13.5px; font-weight:600; display:inline-flex; align-items:center; gap:6px;
+  }
+  .btn-primary{ background:var(--accent); color:var(--accent-ink); }
+  .btn-primary:hover{ background:var(--accent-strong); }
+  .btn-secondary{ border:1px solid var(--border); color:var(--ink-soft); }
+  .btn-secondary:hover{ color:var(--ink); border-color:var(--ink-faint); }
+  .btn:disabled{ opacity:.4; cursor:not-allowed; }
+
+  .empty-note{ padding:18px 24px 26px; color:var(--ink-soft); font-size:14px; }
+
+  /* ---- right summary rail ---- */
+  .summary{ position:sticky; top:20px; display:flex; flex-direction:column; gap:14px; }
+  .summary .card{ padding:20px; }
+  .summary h2{ font-size:13px; text-transform:uppercase; letter-spacing:.06em; color:var(--ink-faint); font-weight:600; margin:0 0 14px; font-family:"Work Sans",sans-serif; }
+  .sum-niche{ display:flex; align-items:center; gap:8px; font-weight:600; font-size:15px; margin-bottom:14px; }
+  .sum-line{ display:flex; justify-content:space-between; align-items:baseline; font-size:13px; padding:5px 0; color:var(--ink-soft); }
+  .sum-line b{ color:var(--ink); font-weight:500; }
+  .factor-chip{
+    display:inline-flex; align-items:center; gap:5px; font-size:11.5px;
+    background:var(--surface-2); border-radius:999px; padding:3px 9px; margin:2px 4px 2px 0;
+    font-family:"IBM Plex Mono",monospace; color:var(--ink-soft);
+  }
+  .factor-chip.on{ background:var(--brass-soft); color:var(--brass); }
+  .hero-figure{
+    background:var(--accent); color:var(--accent-ink); border-radius:12px;
+    padding:18px 20px; margin:14px 0 12px;
+  }
+  .hero-figure .label{ font-size:11px; text-transform:uppercase; letter-spacing:.06em; opacity:.85; }
+  .hero-figure .value{ font-family:"IBM Plex Mono",monospace; font-size:30px; font-weight:600; margin-top:4px; }
+  .sub-figures{ display:flex; flex-direction:column; gap:0; }
+  .sub-figures .sum-line{ border-top:1px solid var(--border); }
+  .sub-figures .sum-line:first-child{ border-top:none; }
+  .proj-row input{
+    width:44px; background:var(--surface-2); border:1px solid var(--border); border-radius:6px;
+    text-align:center; font-family:"IBM Plex Mono",monospace; font-size:12.5px; padding:2px 4px;
+  }
+  .disclaimer{ font-size:11.5px; color:var(--ink-faint); border-top:1px solid var(--border); margin-top:12px; padding-top:12px; }
+  .copy-btn{ width:100%; justify-content:center; margin-top:4px; }
+
+  /* ---- settings drawer ---- */
+  .backdrop{
+    position:fixed; inset:0; background:rgba(10,14,11,.45); z-index:40;
+    display:flex; justify-content:flex-end;
+  }
+  .drawer{
+    width:min(480px,100%); height:100%; background:var(--bg); border-left:1px solid var(--border);
+    overflow-y:auto; padding:24px; display:flex; flex-direction:column; gap:20px;
+  }
+  .drawer-head{ display:flex; justify-content:space-between; align-items:center; }
+  .drawer-head h2{ font-size:19px; margin:0; }
+  .icon-btn{ all:unset; padding:6px; border-radius:8px; color:var(--ink-soft); }
+  .icon-btn:hover{ background:var(--surface-2); color:var(--ink); }
+  .field-label{ font-size:12px; font-weight:600; color:var(--ink-soft); margin-bottom:4px; display:block; }
+  .field{ margin-bottom:12px; }
+  .field input[type=text], .field input[type=number], .field textarea{
+    width:100%; border:1px solid var(--border); border-radius:8px; padding:8px 10px;
+    background:var(--surface); font-size:13.5px;
+  }
+  .field textarea{ min-height:90px; resize:vertical; font-family:"Work Sans",sans-serif; }
+  .niche-edit{ border:1px solid var(--border); border-radius:10px; padding:14px; display:flex; flex-direction:column; gap:2px; }
+  .niche-edit-top{ display:flex; gap:8px; align-items:flex-start; }
+  .niche-edit-top .field{ flex:1; margin-bottom:0; }
+  .icon-field input{ width:52px; text-align:center; font-size:18px; }
+  .base-field input{ width:110px; }
+  .remove-niche{ align-self:flex-end; font-size:12px; color:var(--flag); background:none; border:none; margin-top:6px; }
+  .weight-row{ display:flex; align-items:center; gap:12px; margin-bottom:10px; }
+  .weight-row label{ flex:1; font-size:13px; }
+  .weight-row input[type=range]{ width:110px; accent-color:var(--accent); }
+  .weight-row .wv{ width:46px; text-align:right; font-family:"IBM Plex Mono",monospace; font-size:12.5px; color:var(--brass); }
+  .save-bar{ position:sticky; bottom:0; background:var(--bg); padding-top:10px; }
+  .status-dot{ display:inline-block; width:7px; height:7px; border-radius:50%; margin-right:6px; }
+
+  [hidden]{ display:none !important; }
+  ::selection{ background:var(--accent-soft); }
+</style>
+</head>
+<body>
+
+<div class="app-shell" id="app"></div>
+
+<script>
+(function(){
+
+  /* ---------------- domain defaults (used until db seeds/loads) ---------------- */
+  const DEFAULT_NICHES = [
+    { id:'restaurante', order:1, icon:'🍽️', label:'Restaurante', baseFee:1400, docs:[
+      {group:'Trabalhista', items:[
+        'Regimento interno e código de conduta da equipe de cozinha e salão',
+        'Modelos de contrato por função (cozinheiro, garçom, entregador) e contrato de experiência',
+        'Política de jornada, escalas e banco de horas para o setor de alimentação',
+        'Orientação preventiva sobre uso de entregadores e parceiros de aplicativo',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário (Simples, Presumido) e enquadramento de atividades',
+        'Revisão de obrigações acessórias e pontos de risco de autuação fiscal',
+        'Orientação sobre tributação de vendas por delivery e plataformas',
+      ]},
+      {group:'Empresarial', items:[
+        'Revisão do contrato social e cláusulas de entrada e saída de sócios',
+        'Contratos com fornecedores de insumos e prestadores de serviço',
+        'Estruturação de contratos com plataformas de delivery (iFood, Rappi e similares)',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de trocas, reembolsos e atendimento de reclamações',
+        'Procedimento para incidentes com alimentos e comunicação com clientes',
+        'Defesa em demandas por intoxicação alimentar ou produto avariado',
+        'Adequação do cardápio às informações obrigatórias (alergênicos, preços)',
+      ]},
+    ]},
+    { id:'supermercado', order:2, icon:'🛒', label:'Supermercado', baseFee:1600, docs:[
+      {group:'Trabalhista', items:[
+        'Regimento interno e normas de conduta para operadores de caixa e repositores',
+        'Contratos e política de jornada para equipe de estoque e frente de loja',
+        'Procedimentos disciplinares e medidas de prevenção de passivo trabalhista',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico de regime tributário e pontos de atenção em substituição tributária',
+        'Revisão de obrigações acessórias próprias do varejo alimentício',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos com fornecedores, distribuidores e representantes comerciais',
+        'Revisão de contrato de locação do espaço comercial',
+        'Estruturação de programas de fidelidade e parcerias comerciais',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de trocas, devoluções e controle de validade de produtos',
+        'Procedimento para acidentes de consumo (quedas, produtos vencidos)',
+        'Adequação à LGPD no tratamento de dados de clientes e cartões fidelidade',
+        'Resposta a reclamações no Procon e órgãos de defesa do consumidor',
+      ]},
+    ]},
+    { id:'academia', order:3, icon:'🏋️', label:'Academia', baseFee:1300, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos de instrutores e personal trainers (CLT ou parceria) e prevenção de risco de vínculo empregatício',
+        'Regimento interno e normas de conduta para equipe de recepção e professores',
+        'Política de jornada e escalas para horários de pico (manhã e noite)',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de matrículas, mensalidades e planos',
+        'Orientação sobre tributação de aulas avulsas, personal training e produtos vendidos na loja',
+      ]},
+      {group:'Empresarial', items:[
+        'Contrato de adesão e termo de responsabilidade física do aluno',
+        'Cláusulas de fidelidade, cancelamento e reajuste de mensalidade',
+        'Contratos com franqueadora ou parceiros fornecedores de equipamentos',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de cancelamento, trancamento e reembolso de mensalidades',
+        'Procedimento para acidentes e lesões ocorridos durante o treino',
+        'Adequação à LGPD no cadastro de dados de saúde e biometria dos alunos',
+      ]},
+    ]},
+    { id:'agencia', order:4, icon:'📈', label:'Agência de Marketing / Tráfego Pago', baseFee:1300, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com freelancers, PJs e equipe interna (redator, designer, gestor de tráfego)',
+        'Orientação preventiva sobre risco de pejotização e vínculo empregatício disfarçado',
+        'Política de home office e controle de jornada em equipe remota',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário mais adequado para prestação de serviços digitais',
+        'Orientação sobre tributação de verba de mídia repassada a clientes',
+      ]},
+      {group:'Empresarial', items:[
+        'Contrato de prestação de serviços com escopo, entregáveis e metas contratuais definidos',
+        'Cláusulas de propriedade intelectual sobre criativos, campanhas e estratégias',
+        'Termo de confidencialidade (NDA) e não concorrência com clientes e ex-colaboradores',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de reembolso e rescisão contratual em caso de resultado insatisfatório',
+        'Termos de uso e política de privacidade para captação de leads dos clientes finais',
+      ]},
+    ]},
+    { id:'arquitetura', order:5, icon:'📐', label:'Arquitetura', baseFee:1400, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com arquitetos, estagiários e equipe de apoio (CLT ou parceria)',
+        'Orientação sobre risco de vínculo empregatício com profissionais autônomos por projeto',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário mais vantajoso para sociedade de profissionais',
+        'Orientação sobre tributação de projetos, consultoria e gestão de obras',
+      ]},
+      {group:'Empresarial', items:[
+        'Contrato de prestação de serviços de projeto com escopo, prazos e ART/RRT',
+        'Cláusulas de propriedade intelectual e direitos autorais sobre os projetos',
+        'Contratos de parceria com engenheiros, construtoras e fornecedores',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de alterações de escopo e reajuste de honorários durante a obra',
+        'Procedimento de defesa em reclamações sobre atraso ou descumprimento de projeto',
+      ]},
+    ]},
+    { id:'banda', order:6, icon:'🎤', label:'Banda / Cantor', baseFee:1100, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com músicos, técnicos de som e equipe de apoio (cachê, exclusividade)',
+        'Orientação sobre risco de vínculo empregatício entre integrantes fixos e a banda',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário mais adequado para artista pessoa física ou PJ',
+        'Orientação sobre tributação de cachês, shows e direitos autorais',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de shows e apresentações com casas de eventos, buffets e produtoras',
+        'Cláusulas de direitos autorais, conexos e uso de imagem em gravações',
+        'Contrato de empresariamento (management) e agenciamento artístico',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de cancelamento de shows e responsabilidade por não comparecimento',
+        'Procedimento de defesa em disputas contratuais com contratantes de eventos',
+      ]},
+    ]},
+    { id:'cemiterio_funeraria', order:7, icon:'⚱️', label:'Cemitério e Funerária', baseFee:1700, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e escalas para equipe operacional de atendimento, sepultamento e transporte',
+        'Regimento interno com protocolos de conduta e sigilo no atendimento às famílias',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de planos funerários e serviços avulsos',
+        'Revisão de obrigações acessórias específicas do setor funerário',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de planos e assistência funerária com cláusulas de cobertura e carência',
+        'Contratos com fornecedores (urnas, ornamentação, transporte) e parceiros religiosos',
+        'Regularização de concessões e áreas cemiteriais',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de atendimento e cancelamento de planos funerários',
+        'Procedimento de defesa em reclamações sobre qualidade do serviço em momento sensível',
+        'Adequação à LGPD no tratamento de dados de familiares e falecidos',
+      ]},
+    ]},
+    { id:'clinica_estetica', order:8, icon:'💆', label:'Clínica de Estética', baseFee:1500, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com esteticistas, biomédicos e profissionais de saúde (CLT ou parceria)',
+        'Orientação sobre risco de vínculo empregatício em modelos de comissionamento',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de procedimentos e pacotes',
+        'Orientação sobre tributação de produtos revendidos e procedimentos importados',
+      ]},
+      {group:'Empresarial', items:[
+        'Termo de consentimento informado e ficha de anamnese para procedimentos estéticos',
+        'Contratos de parceria com profissionais de saúde e locação de sala/consultório',
+        'Contratos com fornecedores de equipamentos e insumos importados',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de cancelamento, reembolso e resultado de pacotes de procedimentos',
+        'Procedimento de defesa em reclamações por resultado insatisfatório ou lesão',
+        'Adequação à LGPD no tratamento de dados de saúde e imagens de clientes',
+      ]},
+    ]},
+    { id:'condominio', order:9, icon:'🏢', label:'Condomínio', baseFee:1600, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para porteiros, zeladores e equipe de limpeza',
+        'Orientação sobre terceirização de portaria e segurança e responsabilidade solidária',
+        'Prevenção de passivos trabalhistas em rescisões e troca de administradora',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico das obrigações fiscais do condomínio como responsável e substituto tributário',
+        'Orientação sobre retenções (INSS, ISS) em contratos com prestadores de serviço',
+      ]},
+      {group:'Empresarial', items:[
+        'Revisão da convenção condominial e do regimento interno',
+        'Contratos com administradoras, síndico profissional e prestadores terceirizados',
+        'Assessoria em assembleias, atas e processo decisório do condomínio',
+      ]},
+      {group:'Consumidor', items:[
+        'Cobrança de taxas condominiais e defesa em ações de inadimplência',
+        'Procedimento de defesa em conflitos entre condôminos e uso de áreas comuns',
+      ]},
+    ]},
+    { id:'confeccoes', order:10, icon:'👕', label:'Confecções', baseFee:1500, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para costureiras, cortadores e equipe de produção',
+        'Orientação sobre facção e terceirização de etapas produtivas',
+        'Política de metas de produção e adequação a normas de segurança do trabalho',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal da venda no atacado e varejo',
+        'Orientação sobre substituição tributária e créditos de ICMS na cadeia têxtil',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos com fornecedores de tecido, facções e representantes comerciais',
+        'Contratos de licenciamento de marca e estamparia',
+        'Revisão de contratos de venda para lojistas e distribuidores',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de trocas, devoluções e garantia por defeito de fabricação',
+        'Procedimento de defesa em reclamações sobre etiquetagem e composição têxtil',
+      ]},
+    ]},
+    { id:'construtora', order:11, icon:'🏗️', label:'Construtora', baseFee:1900, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para operários, mestres de obra e equipe administrativa',
+        'Gestão de riscos trabalhistas em terceirização e subempreitadas',
+        'Adequação às normas regulamentadoras de segurança do trabalho na construção civil',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário (RET, Presumido, Real) e tributação por obra',
+        'Orientação sobre retenções previdenciárias em contratos de empreitada',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de empreitada, subempreitada e fornecimento de materiais',
+        'Estruturação de incorporação imobiliária e memorial de incorporação',
+        'Contratos com engenheiros, arquitetos e responsáveis técnicos',
+      ]},
+      {group:'Consumidor', items:[
+        'Contratos de compra e venda de unidades com cláusulas de entrega e atraso de obra',
+        'Procedimento de defesa em reclamações sobre vícios de construção e prazo',
+      ]},
+    ]},
+    { id:'dentista', order:12, icon:'🦷', label:'Dentista', baseFee:1400, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com dentistas associados, auxiliares e equipe de recepção',
+        'Orientação sobre parceria entre profissionais e risco de vínculo empregatício',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário mais vantajoso para sociedade uniprofissional',
+        'Orientação sobre tributação de convênios odontológicos e procedimentos particulares',
+      ]},
+      {group:'Empresarial', items:[
+        'Termo de consentimento informado e organização do prontuário odontológico',
+        'Contratos de parceria, locação de consultório e uso compartilhado de equipamentos',
+        'Contratos com convênios e operadoras odontológicas',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de cancelamento, reembolso e parcelamento de tratamentos',
+        'Procedimento de defesa em reclamações por erro de procedimento',
+        'Adequação à LGPD no tratamento de dados e imagens de pacientes',
+      ]},
+    ]},
+    { id:'escola', order:13, icon:'🎓', label:'Escola / Curso Presencial', baseFee:1600, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com professores, coordenadores e equipe administrativa',
+        'Regimento interno e política de conduta para a equipe pedagógica',
+        'Orientação sobre jornada e enquadramento de professores horistas',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de mensalidades e materiais didáticos',
+        'Orientação sobre tributação de cursos livres e certificações',
+      ]},
+      {group:'Empresarial', items:[
+        'Contrato de prestação de serviços educacionais e regimento escolar',
+        'Contratos de licenciamento de metodologia ou franquia educacional',
+        'Contratos com fornecedores de material didático e uniformes',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de cancelamento, trancamento e reajuste de mensalidade',
+        'Procedimento de defesa em reclamações de pais e alunos no Procon',
+        'Adequação à LGPD no tratamento de dados de estudantes, inclusive menores',
+      ]},
+    ]},
+    { id:'esquadrias', order:14, icon:'🚪', label:'Esquadrias', baseFee:1500, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para operadores de produção e equipe de instalação',
+        'Adequação a normas de segurança do trabalho no manuseio de máquinas e vidro',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e créditos de ICMS na industrialização',
+        'Orientação sobre tributação de serviços de instalação combinados com venda',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de fornecimento e instalação com prazos e especificações técnicas',
+        'Contratos com fornecedores de matéria-prima (alumínio, vidro, ferragens)',
+        'Revisão de contratos com construtoras e arquitetos parceiros',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de garantia técnica e assistência pós-instalação',
+        'Procedimento de defesa em reclamações sobre atraso, medidas erradas ou defeito',
+      ]},
+    ]},
+    { id:'fabrica_limpeza', order:15, icon:'🧪', label:'Fábrica de Produtos de Limpeza', baseFee:1600, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para operadores de produção e equipe de logística',
+        'Adequação a normas de segurança do trabalho no manuseio de produtos químicos',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e créditos de ICMS/IPI na industrialização',
+        'Orientação sobre substituição tributária na venda de produtos químicos',
+      ]},
+      {group:'Empresarial', items:[
+        'Registro e regularização de produtos junto a órgãos sanitários e ambientais',
+        'Contratos com fornecedores de insumos químicos e distribuidores',
+        'Contratos de representação comercial e distribuição exclusiva',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de recall e resposta a incidentes de segurança do produto',
+        'Procedimento de defesa em reclamações sobre rotulagem e composição',
+        'Adequação a normas ambientais no descarte de resíduos e embalagens',
+      ]},
+    ]},
+    { id:'fazenda', order:16, icon:'🌾', label:'Fazenda', baseFee:1700, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos de trabalho rural e regimento interno para safristas e equipe fixa',
+        'Orientação sobre particularidades da CLT rural (jornada, alojamento, transporte)',
+        'Prevenção de passivos em contratos de parceria e arrendamento com trabalhadores',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário do produtor rural (pessoa física ou jurídica)',
+        'Orientação sobre Funrural, ITR e créditos do agronegócio',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de arrendamento, parceria rural e comodato de terras',
+        'Contratos de venda de safra, armazenagem e comercialização',
+        'Regularização fundiária e ambiental (CAR, licenças)',
+      ]},
+      {group:'Consumidor', items:[
+        'Contratos de venda direta ao consumidor final e em feiras',
+        'Procedimento de defesa em reclamações sobre qualidade de produtos vendidos',
+      ]},
+    ]},
+    { id:'haras', order:17, icon:'🐎', label:'Haras', baseFee:1500, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para tratadores, peões e equipe veterinária',
+        'Orientação sobre jornada e riscos do trabalho rural com animais',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário para criação e comercialização de equinos',
+        'Orientação sobre tributação de serviços de embarque, hospedagem e treinamento',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de compra, venda e permuta de animais com cláusulas sanitárias',
+        'Contratos de pensão, hospedagem e treinamento de equinos',
+        'Contratos de parceria em reprodução e cobertura (contrato de monta)',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de responsabilidade por acidentes com animais de terceiros nas instalações',
+        'Procedimento de defesa em disputas sobre saúde ou desempenho do animal vendido',
+      ]},
+    ]},
+    { id:'hotel', order:18, icon:'🏨', label:'Hotel', baseFee:1800, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para recepção, governança, cozinha e manutenção',
+        'Orientação sobre jornada 12x36 e escalas em operação ininterrupta',
+        'Prevenção de passivos trabalhistas em terceirização de limpeza e segurança',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tributação de hospedagem, eventos e alimentação',
+        'Orientação sobre ISS em diárias, taxas de serviço e comissões de plataformas',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos com plataformas de reserva e agências de turismo',
+        'Contratos de administração hoteleira ou franquia de rede',
+        'Contratos com fornecedores de enxoval, alimentos e manutenção',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de cancelamento, overbooking e reembolso de reservas',
+        'Procedimento de defesa em reclamações sobre diárias, danos e objetos de hóspedes',
+        'Adequação à LGPD no cadastro de hóspedes e dados de pagamento',
+      ]},
+    ]},
+    { id:'imobiliaria', order:19, icon:'🏠', label:'Imobiliária', baseFee:1500, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com corretores autônomos e equipe administrativa',
+        'Orientação sobre risco de vínculo empregatício com corretores parceiros',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de comissões de corretagem',
+        'Orientação sobre tributação de administração de locações e taxas de intermediação',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de intermediação, corretagem e administração de imóveis',
+        'Contratos de parceria com construtoras e incorporadoras',
+        'Estruturação de contratos de locação residencial e comercial',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de devolução de sinal e cancelamento de negócios imobiliários',
+        'Procedimento de defesa em reclamações sobre vícios do imóvel e cobrança de comissão',
+        'Adequação à LGPD no cadastro de dados de locatários e proprietários',
+      ]},
+    ]},
+    { id:'infoprodutor', order:20, icon:'💻', label:'Infoprodutor', baseFee:1200, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com equipe de suporte, edição e atendimento (CLT ou PJ)',
+        'Orientação preventiva sobre risco de pejotização em equipes pequenas',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário mais vantajoso para venda de produtos digitais',
+        'Orientação sobre tributação de vendas via plataformas de terceiros e afiliados',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de licenciamento de curso e termos de uso da plataforma',
+        'Contratos de afiliados, coprodução e parcerias de lançamento',
+        'Proteção de propriedade intelectual sobre conteúdo e materiais',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de garantia e reembolso conforme o Código de Defesa do Consumidor',
+        'Procedimento de defesa em reclamações sobre resultado prometido em divulgação',
+        'Adequação à LGPD no tratamento de dados de alunos e leads',
+      ]},
+    ]},
+    { id:'influencer', order:21, icon:'📱', label:'Influenciador Digital', baseFee:1200, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos com equipe de produção, edição e gestão de redes (CLT ou PJ)',
+        'Orientação sobre vínculo empregatício em equipes de assessoria e gestão',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário mais adequado para pessoa física ou PJ',
+        'Orientação sobre tributação de publicidade, permutas e direitos de imagem',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de publicidade e publieditorial com marcas e agências',
+        'Cláusulas de exclusividade, uso de imagem e direitos autorais sobre conteúdo',
+        'Contrato de agenciamento e gestão de carreira',
+      ]},
+      {group:'Consumidor', items:[
+        'Adequação às diretrizes de autorregulamentação publicitária sobre conteúdo patrocinado',
+        'Procedimento de defesa em reclamações sobre publicidade enganosa em divulgações',
+      ]},
+    ]},
+    { id:'loja_joia', order:22, icon:'💎', label:'Loja de Joia e Semijoia', baseFee:1400, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para vendedores e equipe de segurança',
+        'Política de responsabilidade por perdas e diferenças de caixa e estoque',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de joias e metais preciosos',
+        'Orientação sobre obrigações acessórias e rastreabilidade de origem',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos com fornecedores, lapidadores e certificadoras de pedras',
+        'Contratos de consignação e vendas por representantes comerciais',
+        'Estruturação de seguro e política de segurança patrimonial',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de garantia, troca e certificação de autenticidade das peças',
+        'Procedimento de defesa em reclamações sobre qualidade, pureza e avaliação de peças',
+      ]},
+    ]},
+    { id:'armazem_construcao', order:23, icon:'🧱', label:'Loja de Material de Construção', baseFee:1500, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e escalas para equipe de vendas, estoque e entregadores',
+        'Normas de segurança do trabalho para carga, descarga e movimentação de materiais',
+        'Regimento interno e política de uso de equipamentos de proteção individual',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e pontos de atenção em substituição tributária de materiais',
+        'Revisão de obrigações acessórias do varejo de construção',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos com fornecedores, fabricantes e transportadoras',
+        'Revisão de contrato de locação do galpão ou espaço comercial',
+        'Estruturação de vendas a prazo e política de crédito a clientes profissionais',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de trocas, devoluções e garantia de materiais com defeito',
+        'Procedimento para incidentes com produtos ou entregas (perda, avaria, atraso)',
+        'Resposta a reclamações no Procon sobre prazos e qualidade de entrega',
+      ]},
+    ]},
+    { id:'loja_roupa', order:24, icon:'👗', label:'Loja de Roupa', baseFee:1300, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para vendedores e equipe de estoque',
+        'Política de metas comerciais e comissionamento da equipe de vendas',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de compras no atacado',
+        'Orientação sobre substituição tributária no varejo de vestuário',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos com fornecedores, representantes e marcas em consignação',
+        'Revisão de contrato de locação do ponto comercial ou de shopping',
+        'Estruturação jurídica de vendas online e marketplace',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de trocas, devoluções e prazo de arrependimento em vendas online',
+        'Procedimento de defesa em reclamações sobre qualidade e etiquetagem das peças',
+      ]},
+    ]},
+    { id:'logistica', order:25, icon:'🚚', label:'Logística', baseFee:1700, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para motoristas, ajudantes e equipe de armazém',
+        'Orientação sobre terceirização e risco de vínculo com motoristas agregados',
+        'Adequação à Lei do Motorista quanto a jornada, descanso e rastreamento',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tributação do transporte de cargas',
+        'Orientação sobre créditos tributários sobre frete e combustível',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de transporte, frete e armazenagem com clientes e parceiros',
+        'Contratos de seguro para cobertura de carga e responsabilidade civil',
+        'Regularização junto à ANTT e órgãos reguladores do setor',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de responsabilidade por atraso, avaria e extravio de mercadorias',
+        'Procedimento de defesa em reclamações e ações de ressarcimento por danos à carga',
+      ]},
+    ]},
+    { id:'petshop', order:26, icon:'🐾', label:'Pet Shop', baseFee:1300, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para tosadores, veterinários e equipe de vendas',
+        'Orientação sobre parceria com veterinários autônomos e risco de vínculo',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de produtos e serviços',
+        'Orientação sobre tributação de venda de medicamentos e rações',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos com fornecedores de ração, medicamentos e fornecedores de animais',
+        'Termo de responsabilidade para serviços de banho, tosa e hospedagem',
+        'Contratos de parceria com clínica veterinária associada',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de trocas de produtos e garantia de serviços prestados',
+        'Procedimento para incidentes com animais durante banho, tosa ou hospedagem',
+        'Adequação à LGPD no cadastro de tutores e fichas dos animais',
+      ]},
+    ]},
+    { id:'revenda_veiculos', order:27, icon:'🚗', label:'Revenda de Veículos', baseFee:1500, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para vendedores e equipe de pátio',
+        'Política de metas e comissionamento da equipe de vendas',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de veículos em consignação',
+        'Orientação sobre tributação de consórcios e intermediação de financiamento',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de compra e venda, consignação e troca de veículos',
+        'Contratos com financeiras, seguradoras e despachantes parceiros',
+        'Due diligence documental de veículos (restrições, sinistros, procedência)',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de garantia legal em veículos usados e vícios ocultos',
+        'Procedimento de defesa em reclamações sobre quilometragem, sinistro não informado e financiamento',
+        'Resposta a reclamações no Procon sobre publicidade e condições de venda',
+      ]},
+    ]},
+    { id:'salao_barbeiro', order:28, icon:'💈', label:'Salão / Barbeiro', baseFee:1300, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos de parceria com cabeleireiros e barbeiros (Lei do Salão Parceiro)',
+        'Orientação sobre risco de vínculo empregatício em modelos de comissão e aluguel de cadeira',
+        'Regimento interno e política de agendamento e conduta da equipe',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tratamento fiscal de serviços e produtos revendidos',
+        'Orientação sobre retenções em contratos de parceria (Lei 13.352/2016)',
+      ]},
+      {group:'Empresarial', items:[
+        'Contrato de parceria salão-profissional com cláusulas de percentual e responsabilidades',
+        'Contratos com fornecedores de produtos e, se houver, contrato de franquia',
+        'Política de uso de imagem para divulgação de trabalhos em redes sociais',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de responsabilidade por danos em procedimentos químicos (alergias, queimaduras)',
+        'Procedimento de defesa em reclamações sobre o resultado do serviço',
+      ]},
+    ]},
+    { id:'transportadora', order:29, icon:'🚛', label:'Transportadora', baseFee:1800, docs:[
+      {group:'Trabalhista', items:[
+        'Contratos e regimento interno para motoristas, ajudantes e equipe administrativa',
+        'Adequação à Lei do Motorista e controle de jornada por rastreamento',
+        'Orientação sobre terceirização e risco de vínculo com motoristas agregados',
+      ]},
+      {group:'Tributário', items:[
+        'Diagnóstico do regime tributário e tributação do transporte de cargas',
+        'Orientação sobre créditos tributários sobre frete, pedágio e combustível',
+      ]},
+      {group:'Empresarial', items:[
+        'Contratos de frete, fretamento e prestação de serviços de transporte',
+        'Contratos de seguro de carga e responsabilidade civil do transportador',
+        'Regularização junto à ANTT, licenciamento de frota e documentação (RNTRC)',
+      ]},
+      {group:'Consumidor', items:[
+        'Política de responsabilidade por atraso, avaria e extravio de cargas',
+        'Procedimento de defesa em ações de ressarcimento e disputas com embarcadores',
+      ]},
+    ]},
+  ];
+
+  /* ---------------- POPs internos — Procedimento Operacional Padrão do escritório ---------------- */
+  const DEFAULT_POPS = [
+    { id:'atendimento', order:1, icon:'🎧', label:'Atendimento', resumo:'Comunicação com o cliente sobre andamentos e movimentações processuais.', docs:[
+      {group:'Etapa 1 — Identificação da movimentação', items:[
+        'Responsável: Controladoria',
+        'Acompanhar diariamente os processos ativos no Tramitação Inteligente',
+        'Ao identificar movimentação relevante, registrar e classificar o tipo (jurídica, administrativa, informativa ou urgente)',
+        'Abrir tarefa de comunicação para o Atendimento',
+        'Entregável: tarefa de comunicação criada',
+      ]},
+      {group:'Etapa 2 — Comunicação ao cliente', items:[
+        'Responsável: Atendimento',
+        'Prazo: até 24h úteis após a movimentação (mesmo dia em casos urgentes)',
+        'Contatar o cliente pelo canal de preferência, priorizando o WhatsApp',
+        'Usar linguagem clara e objetiva, sem juridiquês',
+        'Registrar a interação com data, horário e canal utilizado',
+      ]},
+      {group:'Etapa 3 — Auditoria da comunicação', items:[
+        'Responsável: Gestão Estratégica',
+        'Revisar semanalmente uma amostra das mensagens enviadas',
+        'Avaliar clareza, correção e cumprimento do prazo',
+        'Entregável: relatório semanal de auditoria',
+      ]},
+      {group:'Modelo de mensagem', items:[
+        '"Olá, [Nome do Cliente]! Houve uma atualização no seu processo nº [número]. [Descrição breve e clara da movimentação]. Nossa equipe já está acompanhando e, caso seja necessária alguma ação, entraremos em contato."',
+      ]},
+      {group:'Prazos (SLA)', items:[
+        'Padrão: até 24h úteis após o evento processual',
+        'Urgente (intimação imediata, audiência, liminar): comunicação no mesmo dia, com prioridade',
+      ]},
+    ]},
+    { id:'controladoria', order:2, icon:'📋', label:'Controladoria', resumo:'Organização de clientes, acompanhamento de processos e controle de prazos internos.', docs:[
+      {group:'Etapa 1 — Cadastro do cliente', items:[
+        'Responsável: Controladoria · Prazo: até 24h após a entrada do cliente',
+        'Criar a pasta do cliente no Google Drive, seguindo o padrão de pastas do escritório',
+        'Cadastrar o cliente no Guimoo e no Tramitação Inteligente com todos os dados',
+        'Vincular contrato e documentos',
+        'Configurar alertas de prazos e vencimentos',
+        'Entregável: cliente cadastrado e organizado no sistema',
+      ]},
+      {group:'Etapa 2 — Monitoramento de processos', items:[
+        'Responsável: Controladoria · Prazo: diário',
+        'Acompanhar todos os processos ativos no Tramitação Inteligente',
+        'Identificar movimentações relevantes (despacho, decisão, audiência, sentença, intimação)',
+        'Classificar o tipo de movimentação e abrir tarefa para o Atendimento quando necessário',
+        'Entregável: movimentações registradas e encaminhadas',
+      ]},
+      {group:'Etapa 3 — Controle de prazos', items:[
+        'Responsável: Controladoria · Prazo: contínuo',
+        'Monitorar o cumprimento dos prazos internos',
+        'Alertar a Gestão Estratégica sobre atrasos ou gargalos',
+        'Manter a pauta de audiências sempre atualizada',
+        'Gerar relatório semanal de prazos',
+        'Entregável: relatório semanal de conformidade',
+      ]},
+    ]},
+    { id:'comercial', order:3, icon:'💼', label:'Departamento Comercial', resumo:'Do primeiro contato do lead até a assinatura do contrato.', docs:[
+      {group:'Etapa 1 — Recebimento do lead', items:[
+        'Responsável: Comercial · Prazo: imediato',
+        'Lead pode chegar por indicação, tráfego pago, WhatsApp ou prospecção ativa',
+        'Registrar no Guimoo: nome, empresa, contato, origem e interesse',
+        'Agendar reunião de diagnóstico',
+        'Entregável: lead qualificado e reunião marcada',
+      ]},
+      {group:'Etapa 2 — Diagnóstico e proposta', items:[
+        'Responsável: Comercial · Prazo: mesmo dia do diagnóstico',
+        'Conduzir a reunião seguindo o roteiro do setor "Reunião de Vendas"',
+        'Apresentar a proposta e as condições ainda na reunião',
+        'Fazer o acompanhamento (follow-up) até o fechamento',
+        'Entregável: proposta enviada',
+      ]},
+      {group:'Etapa 3 — Fechamento e contrato', items:[
+        'Responsável: Comercial · Prazo: imediato após aprovação',
+        'Gerar o contrato personalizado e enviar para assinatura pelo ZapSign',
+        'Confirmar assinatura e pagamento inicial, quando houver',
+        'Entregável: contrato assinado',
+      ]},
+      {group:'Etapa 4 — Boas-vindas ao cliente', items:[
+        'Responsável: Atendimento · Prazo: até 1h após a assinatura',
+        'Enviar mensagem de boas-vindas pelo WhatsApp',
+        'Confirmar dados de contato, empresa e e-mail para documentos',
+        'Informar que o Jurídico entrará em contato em até 48h para o alinhamento técnico',
+        'Entregável: mensagem enviada e confirmada',
+      ]},
+      {group:'Etapa 5 — Cadastro do novo cliente', items:[
+        'Responsável: Controladoria · Prazo: até 24h após a assinatura',
+        'Criar a pasta do cliente e cadastrar no Guimoo e no Tramitação Inteligente',
+        'Notificar a equipe jurídica de que o cliente está ativo',
+        'Entregável: cadastro completo',
+      ]},
+      {group:'Modelo de mensagem de boas-vindas', items:[
+        '"Olá, [Nome]! Seja bem-vindo à nossa assessoria jurídica. Sou [Nome], responsável pelo seu atendimento inicial. Nossa equipe vai ativar seu cadastro e você vai receber o cronograma com os próximos passos."',
+      ]},
+    ]},
+    { id:'diretoria', order:4, icon:'🧭', label:'Diretoria Geral', resumo:'Visão geral da gestão do escritório e acompanhamento dos indicadores de cada área.', docs:[
+      {group:'Responsabilidades principais', items:[
+        'Decisões estratégicas, jurídicas e administrativas do escritório',
+        'Representação institucional perante clientes e parceiros',
+        'Aprovação de contratações, metas e estratégias de expansão',
+        'Supervisão das áreas: jurídico, controladoria, comercial, atendimento e gestão de pessoas',
+        'Análise dos indicadores de cada área e proposta de melhorias',
+        'Condução das reuniões de alinhamento geral',
+      ]},
+      {group:'Indicadores de acompanhamento (ajuste as metas conforme o momento do escritório)', items:[
+        'Faturamento mensal e novos contratos de assessoria fechados',
+        'Percentual de prazos processuais cumpridos dentro do prazo interno',
+        'Satisfação dos clientes (pesquisa periódica ou NPS)',
+        'Percentual de relatórios semanais entregues aos clientes sem atraso',
+      ]},
+    ]},
+    { id:'gestao_pessoas', order:5, icon:'🤝', label:'Gestão de Pessoas', resumo:'Distribuição de trabalho, acompanhamento da equipe e entrada/saída de colaboradores.', docs:[
+      {group:'Etapa 1 — Distribuição de audiências e tarefas', items:[
+        'Prazo: 7 dias úteis de antecedência',
+        'Receber a pauta de audiências da Controladoria',
+        'Distribuir entre os advogados conforme especialidade e disponibilidade',
+        'Confirmar o aceite do profissional designado e resolver conflitos de agenda',
+        'Entregável: audiências distribuídas e confirmadas',
+      ]},
+      {group:'Etapa 2 — Acompanhamento da equipe', items:[
+        'Prazo: contínuo',
+        'Monitorar a carga de trabalho de cada colaborador',
+        'Identificar necessidades de treinamento',
+        'Realizar feedbacks periódicos',
+        'Entregável: equipe engajada e com carga de trabalho equilibrada',
+      ]},
+      {group:'Etapa 3 — Entrada e saída de colaboradores', items:[
+        'Prazo: conforme a demanda',
+        'Integrar novos colaboradores com um treinamento padrão',
+        'Documentar processos e responsabilidades de cada função',
+        'Conduzir desligamentos com checklist próprio, garantindo continuidade das demandas em andamento',
+        'Entregável: transição organizada, sem perda de informação',
+      ]},
+    ]},
+    { id:'gestao_estrategica', order:6, icon:'📊', label:'Gestão Estratégica', resumo:'Acompanhamento de metas, relatórios, indicadores e rotina operacional do escritório.', docs:[
+      {group:'Organização de metas', items:[
+        'Documentar as metas de cada área (jurídica, comercial, administrativa)',
+        'Definir responsável e prazo para cada meta',
+        'Revisar semanalmente o andamento',
+      ]},
+      {group:'Gestão de relatórios', items:[
+        'Garantir que os relatórios semanais de assessoria sejam entregues em dia',
+        'Padronizar o formato de contato com os clientes',
+        'Apoiar a elaboração dos relatórios gerenciais do escritório',
+      ]},
+      {group:'Supervisão da rotina operacional', items:[
+        'Organizar e documentar reuniões internas em ata',
+        'Manter o calendário do escritório atualizado',
+        'Registrar as comunicações internas relevantes',
+      ]},
+      {group:'Análise de indicadores', items:[
+        'Manter um painel com os indicadores de cada área',
+        'Atualizar o painel até o 5º dia útil de cada mês',
+        'Analisar os resultados trimestralmente e propor comparativos',
+      ]},
+      {group:'Monitoramento de políticas internas', items:[
+        'Verificar a aderência da equipe aos processos e prazos definidos',
+        'Registrar desvios e tratá-los diretamente com o responsável da área',
+      ]},
+      {group:'Identificação de gargalos', items:[
+        'Analisar trimestralmente os pontos de lentidão nos processos',
+        'Propor e acompanhar a implementação de melhorias',
+      ]},
+      {group:'Treinamento e capacitação', items:[
+        'Levantar os temas de treinamento necessários para a equipe',
+        'Coordenar ao menos um treinamento a cada dois meses',
+      ]},
+    ]},
+    { id:'juridico', order:7, icon:'⚖️', label:'Jurídico', resumo:'Elaboração e protocolo de peças processuais, do prazo à comunicação ao cliente.', docs:[
+      {group:'Etapa 1 — Criação da tarefa', items:[
+        'Responsável: Controladoria · Prazo: imediato, assim que o prazo processual é identificado',
+        'Criar a tarefa no Tramitação Inteligente com o tipo de peça e a data-limite para protocolo',
+        'Definir o responsável pela elaboração',
+        'Entregável: tarefa criada e visível para o Jurídico',
+      ]},
+      {group:'Etapa 2 — Elaboração da peça', items:[
+        'Responsável: Jurídico · Prazo: até 3 dias úteis antes do prazo final',
+        'Redigir com base nos documentos e informações atualizadas do cliente',
+        'Revisar internamente (fundamentação, estrutura e clareza)',
+        'Marcar como pronta para revisão',
+        'Entregável: peça pronta para revisão',
+      ]},
+      {group:'Etapa 3 — Revisão e autorização', items:[
+        'Responsável: Gestão Estratégica ou sócio revisor · Prazo: até 2 dias úteis antes do prazo final',
+        'Revisar conteúdo, forma e coerência com a estratégia do caso',
+        'Aprovar para protocolo ou devolver com observações para ajuste',
+        'Entregável: peça autorizada para protocolo',
+      ]},
+      {group:'Etapa 4 — Protocolo', items:[
+        'Responsável: Controladoria · Prazo: até 1 dia útil antes do prazo final',
+        'Protocolar no sistema eletrônico do tribunal (PJe, e-SAJ, eproc, conforme o caso)',
+        'Salvar o comprovante de protocolo na pasta do processo',
+        'Entregável: peça protocolada, com comprovante anexado',
+      ]},
+      {group:'Etapa 5 — Comunicação ao cliente', items:[
+        'Responsável: Atendimento · Prazo: até 24h após o protocolo',
+        'Enviar mensagem informando o protocolo, seguindo o modelo padrão',
+        'Encaminhar dúvidas técnicas do cliente ao Jurídico',
+        'Entregável: comunicação registrada',
+      ]},
+      {group:'Modelo de mensagem', items:[
+        '"Olá, [Nome]! Informamos que a peça referente ao seu processo nº [número] foi protocolada com sucesso em [data]. Vamos acompanhar o andamento e manter você informado. Conte com a nossa equipe!"',
+      ]},
+    ]},
+    { id:'modelo_contrato', order:8, icon:'📄', label:'Modelo de Contrato de Assessoria Jurídica', resumo:'Estrutura de referência para o contrato de assessoria contínua — use como checklist ao revisar o seu modelo.', docs:[
+      {group:'Cláusulas essenciais', items:[
+        'Partes — qualificação completa da contratante e do escritório contratado',
+        'Objeto — escopo da assessoria (preventiva, consultiva, judicial e extrajudicial) e o profissional responsável',
+        'Forma de atendimento — canais oficiais de comunicação e como as demandas são registradas',
+        'Prazo — vigência do contrato e regra de renovação automática',
+        'Honorários mensais — valor, vencimento, forma de pagamento e consequência do atraso',
+        'Honorários de êxito — percentual sobre valores recebidos ou economias geradas pela atuação',
+        'Custas e despesas — de quem é a responsabilidade e como funciona o reembolso',
+        'Obrigações do contratado — zelo, diligência e sigilo profissional',
+        'Obrigações da contratante — fornecer informações e documentos, cumprir orientações e pagar em dia',
+        'Limitação de responsabilidade — deixar claro que a obrigação é de meio, não de resultado',
+        'Confidencialidade — sigilo mútuo, inclusive após o fim do contrato',
+        'Propriedade intelectual — proteção dos modelos, fluxos e materiais do escritório',
+        'Não aliciamento — impede a contratação direta da equipe do escritório pela contratante',
+        'Proteção da carteira de clientes — veda o uso de contatos do escritório para captação',
+        'Rescisão — hipóteses de encerramento e eventual multa por rescisão antecipada',
+        'Penalidades — consequências pelo descumprimento das cláusulas de proteção',
+        'Proteção de dados (LGPD) — compromisso de ambas as partes com a Lei nº 13.709/2018',
+        'Foro — comarca eleita para resolver eventuais disputas',
+      ]},
+      {group:'Observação', items:[
+        'Este é um índice de referência para conferência. O texto jurídico de cada cláusula deve ser redigido e revisado caso a caso.',
+      ]},
+    ]},
+    { id:'procedimento_assessoria', order:9, icon:'🔄', label:'Procedimento Interno de Assessoria', resumo:'Como conduzir o relacionamento com os clientes de assessoria jurídica contínua.', docs:[
+      {group:'Diretrizes gerais', items:[
+        'A assessoria deve ser preventiva e estratégica, não apenas reativa',
+        'O responsável deve manter postura proativa, antecipando riscos sempre que possível',
+        'O cliente precisa perceber acompanhamento próximo e organizado',
+      ]},
+      {group:'Comunicação semanal', items:[
+        'No início de cada semana, fazer contato breve com o cliente (atualização de demandas ou apenas presença)',
+        'Confirmar o recebimento de toda nova demanda, informando que será analisada',
+      ]},
+      {group:'Relatório semanal', items:[
+        'Enviar toda sexta-feira, em PDF, com o timbrado do escritório',
+        'Incluir demandas judiciais e extrajudiciais, análises, orientações e reuniões do período',
+        'Em caso de feriado, alinhar previamente um novo prazo de envio',
+      ]},
+      {group:'Reuniões mensais', items:[
+        'Realizar ao menos uma reunião por mês com o cliente, presencial ou online',
+        'Manter a reunião mesmo sem pauta específica — é um momento de ouvir o cliente',
+      ]},
+      {group:'Onboarding inicial', items:[
+        'Ao iniciar uma nova assessoria, marcar um encontro de abertura',
+        'Apresentar o escritório, entender a empresa e alinhar expectativas',
+      ]},
+      {group:'Registro de reuniões', items:[
+        'Toda reunião gera uma ata, com os pontos discutidos e os encaminhamentos',
+        'Enviar a ata em PDF ao cliente e arquivar na pasta do cliente',
+      ]},
+    ]},
+    { id:'regras_convivencia', order:10, icon:'🏢', label:'Regras de Boa Convivência', resumo:'Padrões de apresentação, organização e conduta no ambiente de trabalho.', docs:[
+      {group:'Apresentação pessoal', items:[
+        'Traje alinhado ao ambiente jurídico (vestimenta discreta e acessórios discretos)',
+        'Em atendimento a cliente ou reunião externa, priorizar traje social completo',
+      ]},
+      {group:'Organização da mesa e dos materiais', items:[
+        'Manter apenas o material de uso imediato sobre a mesa',
+        'Guardar processos físicos e pastas ao final do expediente',
+        'Mesa organizada e limpa ao fim do dia',
+      ]},
+      {group:'Alimentação e bebidas no ambiente de trabalho', items:[
+        'Reservar as refeições para o espaço de copa',
+        'Evitar copos sem tampa perto de documentos e equipamentos',
+      ]},
+      {group:'Identificação', items:[
+        'Uso do crachá durante todo o expediente, quando aplicável',
+        'Comunicar imediatamente perda ou extravio',
+      ]},
+    ]},
+    { id:'reuniao_vendas', order:11, icon:'📈', label:'Reunião de Vendas', resumo:'Roteiro para conduzir a reunião de diagnóstico com um cliente em potencial.', docs:[
+      {group:'Passo 1 — Mudar a percepção inicial', items:[
+        'Levar a conversa para mostrar a atuação preventiva do escritório, não reativa',
+        'Perguntar sobre o negócio e os desafios atuais do cliente',
+      ]},
+      {group:'Passo 2 — Diagnóstico', items:[
+        'Fazer perguntas abertas, sem pressa',
+        'Deixar o cliente falar a maior parte do tempo',
+        'Mapear os riscos jurídicos que ele ainda não percebeu',
+      ]},
+      {group:'Passo 3 — Casos concretos', items:[
+        'Usar um exemplo real, adaptado ao nicho do cliente, para tornar o risco tangível',
+        'Perguntar sobre os contratos e cuidados que ele já tem hoje',
+        'Mostrar como a assessoria evitaria ou reduziria aquele risco',
+      ]},
+      {group:'Passo 4 — Condução da reunião', items:[
+        'Buscar a presença de todos os sócios ou decisores',
+        'Apresentar valor e condições ainda na reunião',
+        'Usar recursos visuais (números, exemplos, comparações) para reforçar o ponto',
+      ]},
+      {group:'Passo 5 — Fechamento', items:[
+        'Retomar o risco mais relevante identificado na conversa',
+        'Comparar o investimento mensal com o prejuízo potencial',
+        'Perguntar diretamente se é possível iniciar a assessoria já',
+        'Se fechado: contrato pronto, grupo de WhatsApp criado e primeira reunião agendada no mesmo dia',
+      ]},
+    ]},
+    { id:'manual_audiencias', order:12, icon:'🏛️', label:'Manual Interno de Audiências', resumo:'Reservado — revisar o material de origem com calma e adaptar depois.', docs:[
+      {group:'Pendente', items:[
+        'Este setor ainda não foi preenchido de propósito',
+        'Revisar o manual original e montar aqui o procedimento de audiências (preparação, atuação e pós-audiência)',
+      ]},
+    ]},
+    { id:'livro_formacao', order:13, icon:'📘', label:'Livro de Formação', resumo:'Material de formação e cultura do escritório — preencher com os princípios que você quer transmitir à equipe.', docs:[
+      {group:'Sugestão de estrutura', items:[
+        'História e propósito do escritório',
+        'Áreas de atuação e como cada uma funciona',
+        'Cultura e valores esperados da equipe',
+        'Trilha de estudo para quem está começando',
+      ]},
+    ]},
+  ];
+
+  const DEFAULT_SETTINGS = {
+    weights:{ litigios:100, equipe:60, origem:40, tributario:50, complexidade:90 },
+    projectionContracts:5,
+  };
+
+  const FACTORS = [
+    { key:'litigios', short:'Litígios ativos', label:'Processos ou passivos trabalhistas em curso', hint:'Demandas judiciais ativas aumentam a complexidade da assessoria.', opts:[{v:0,l:'Não'},{v:1,l:'Sim'}] },
+    { key:'equipe', short:'10+ funcionários', label:'Quadro de 10 ou mais funcionários', hint:'Mais colaboradores ampliam o escopo trabalhista.', opts:[{v:0,l:'Até 9'},{v:1,l:'10 ou mais'}] },
+    { key:'origem', short:'Captação ativa', label:'Como o cliente chegou até você', hint:'A origem pode influenciar a margem de negociação.', opts:[{v:0,l:'Indicação'},{v:1,l:'Captação ativa'}] },
+    { key:'tributario', short:'Regime complexo', label:'Regime tributário da empresa', hint:'Regimes mais complexos exigem mais atuação.', opts:[{v:0,l:'Simples / MEI'},{v:1,l:'Presumido / Real'}] },
+    { key:'complexidade', short:'Complexidade extra', label:'Complexidade societária ou operacional adicional', hint:'Vários sócios, disputas ou operações atípicas.', opts:[{v:0,l:'Não'},{v:1,l:'Sim'}] },
+  ];
+
+  const fmtBRL = n => 'R$ ' + Math.round(n).toLocaleString('pt-BR');
+
+  /* ---------------- state ---------------- */
+  const state = {
+    view: 'precifica', // precifica | pops
+    step: 1,
+    niches: DEFAULT_NICHES.map(n => ({...n})),
+    settings: JSON.parse(JSON.stringify(DEFAULT_SETTINGS)),
+    selectedNicheId: DEFAULT_NICHES[0].id,
+    answers: { litigios:0, equipe:0, origem:0, tributario:0, complexidade:0 },
+    dbStatus: 'checking', // checking | live | local | offline
+    settingsOpen: false,
+    pops: DEFAULT_POPS.map(p => ({...p})),
+    selectedPopId: DEFAULT_POPS[0].id,
+    popSettingsOpen: false,
+  };
+
+  let db = null;
+  const LS_KEY = 'precifica-state-v1';
+
+  function selectedNiche(){ return state.niches.find(n=>n.id===state.selectedNicheId) || null; }
+  function selectedPop(){ return state.pops.find(p=>p.id===state.selectedPopId) || null; }
+
+  function computeMultiplier(){
+    let m = 1;
+    FACTORS.forEach(f=>{
+      if(state.answers[f.key] === 1){ m += (state.settings.weights[f.key]||0)/100; }
+    });
+    return m;
+  }
+  function computeMonthly(){
+    const n = selectedNiche();
+    if(!n) return 0;
+    return n.baseFee * computeMultiplier();
+  }
+
+  /* ---------------- render ---------------- */
+  const app = document.getElementById('app');
+
+  function render(){
+    app.innerHTML = '';
+    app.className = 'app-shell' + (state.view==='pops' ? ' pops-view' : '');
+    app.appendChild(renderRail());
+    app.appendChild(renderMain());
+    if(state.view==='precifica') app.appendChild(renderSummary());
+    if(state.settingsOpen) app.appendChild(renderSettingsDrawer());
+    if(state.popSettingsOpen) app.appendChild(renderPopSettingsDrawer());
+  }
+
+  function el(tag, cls, html){
+    const e = document.createElement(tag);
+    if(cls) e.className = cls;
+    if(html !== undefined) e.innerHTML = html;
+    return e;
+  }
+
+  function renderRail(){
+    const rail = el('div','rail');
+
+    const brand = el('div','brand');
+    brand.innerHTML = `
+      <div class="mark">SV</div>
+      <div class="name">Precifica</div>
+      <div class="tagline">Salvador Vivas Advocacia · assessoria empresarial</div>
+    `;
+    rail.appendChild(brand);
+
+    const switcher = el('div','view-switch');
+    const bPrecifica = el('button', state.view==='precifica'?'active':'', 'Precificação');
+    bPrecifica.onclick = ()=>{ state.view='precifica'; render(); };
+    const bPops = el('button', state.view==='pops'?'active':'', 'POPs internos');
+    bPops.onclick = ()=>{ state.view='pops'; render(); };
+    switcher.appendChild(bPrecifica); switcher.appendChild(bPops);
+    rail.appendChild(switcher);
+
+    if(state.view==='precifica'){
+      const steps = el('ul','steps');
+      const items = [
+        {n:1, label:'Nicho', enabled:true},
+        {n:2, label:'Escopo', enabled:!!state.selectedNicheId},
+        {n:3, label:'Perfil do cliente', enabled:!!state.selectedNicheId},
+      ];
+      items.forEach(it=>{
+        const li = el('li');
+        const b = el('button', (state.step===it.n?'active':'') + (state.step>it.n?' done':''));
+        b.disabled = !it.enabled;
+        b.innerHTML = `<span class="n">${state.step>it.n?'✓':it.n}</span><span>${it.label}</span>`;
+        b.onclick = ()=>{ if(it.enabled){ state.step = it.n; render(); } };
+        li.appendChild(b);
+        steps.appendChild(li);
+      });
+      rail.appendChild(steps);
+    } else {
+      const list = el('ul','pop-list');
+      state.pops.slice().sort((a,b)=>a.order-b.order).forEach(p=>{
+        const li = el('li');
+        const b = el('button', state.selectedPopId===p.id?'active':'');
+        b.innerHTML = `<span class="ic">${p.icon||'📄'}</span><span>${p.label}</span>`;
+        b.onclick = ()=>{ state.selectedPopId = p.id; render(); };
+        li.appendChild(b);
+        list.appendChild(li);
+      });
+      rail.appendChild(list);
+    }
+
+    const foot = el('div','rail-foot');
+    if(state.view==='precifica'){
+      const cfgBtn = el('button','ghost-btn','⚙️&nbsp;&nbsp;Configurar nichos e pesos');
+      cfgBtn.onclick = ()=>{ state.settingsOpen = true; render(); };
+      foot.appendChild(cfgBtn);
+    } else {
+      const cfgBtn = el('button','ghost-btn','⚙️&nbsp;&nbsp;Configurar setores');
+      cfgBtn.onclick = ()=>{ state.popSettingsOpen = true; render(); };
+      foot.appendChild(cfgBtn);
+    }
+    const status = el('div','ghost-btn');
+    const ok = state.dbStatus==='live' || state.dbStatus==='local';
+    const dot = ok ? '#4c9a72' : (state.dbStatus==='offline' ? '#a8452e' : '#c8ab6a');
+    const txt = state.dbStatus==='live' ? 'Ajustes salvos na nuvem'
+      : state.dbStatus==='local' ? 'Ajustes salvos neste navegador'
+      : state.dbStatus==='offline' ? 'Usando valores locais' : 'Sincronizando…';
+    status.innerHTML = `<span class="status-dot" style="background:${dot}"></span>${txt}`;
+    status.style.fontSize = '11.5px';
+    status.style.color = 'var(--ink-faint)';
+    foot.appendChild(status);
+    rail.appendChild(foot);
+
+    return rail;
+  }
+
+  function renderMain(){
+    const main = el('div','main');
+    const card = el('div','card');
+
+    if(state.view==='pops'){
+      card.appendChild(renderPopMain());
+    } else if(state.step===1) card.appendChild(renderStepNicho());
+    else if(state.step===2) card.appendChild(renderStepEscopo());
+    else card.appendChild(renderStepPerfil());
+
+    main.appendChild(card);
+    return main;
+  }
+
+  function renderPopMain(){
+    const wrap = el('div');
+    const p = selectedPop();
+    if(!p){
+      wrap.appendChild(el('div','empty-note','Nenhum setor cadastrado ainda. Use "Configurar setores" para adicionar o primeiro.'));
+      return wrap;
+    }
+    wrap.appendChild(el('div','pop-head', `
+      <div class="eyebrow">POP · Procedimento Operacional Padrão</div>
+      <h1>${p.icon||'📄'} ${p.label}</h1>
+      <p>${p.resumo||''}</p>
+    `));
+    const list = el('div','scope-list');
+    (p.docs||[]).forEach(g=>{
+      const grp = el('div','scope-group');
+      grp.appendChild(el('h3', null, g.group));
+      g.items.forEach(it=>{
+        const row = el('div','scope-item');
+        row.innerHTML = `<span class="dot"></span><span>${it}</span>`;
+        grp.appendChild(row);
+      });
+      list.appendChild(grp);
+    });
+    wrap.appendChild(list);
+
+    const actions = el('div','pop-actions');
+    const copyBtn = el('button','btn btn-secondary','📋 Copiar conteúdo deste POP');
+    copyBtn.onclick = ()=>{
+      const text = `${p.label}\n${p.resumo||''}\n` +
+        (p.docs||[]).map(g=>`\n${g.group}:\n`+g.items.map(i=>'- '+i).join('\n')).join('\n');
+      navigator.clipboard && navigator.clipboard.writeText(text);
+      copyBtn.textContent = '✓ Copiado';
+      setTimeout(()=>{ copyBtn.innerHTML = '📋 Copiar conteúdo deste POP'; }, 1600);
+    };
+    actions.appendChild(copyBtn);
+    const editBtn = el('button','btn btn-secondary','✎ Ajustar este setor');
+    editBtn.onclick = ()=>{ state.popSettingsOpen = true; render(); };
+    actions.appendChild(editBtn);
+    wrap.appendChild(actions);
+
+    return wrap;
+  }
+
+  function renderStepNicho(){
+    const wrap = el('div');
+    wrap.appendChild(el('div','step-head', `
+      <div class="eyebrow">Etapa 1 de 3</div>
+      <h1>Selecione o nicho</h1>
+      <p>Escolha o segmento do cliente para carregar o escopo de serviços e a base de honorários já calibrada para esse tipo de negócio.</p>
+    `));
+    const grid = el('div','niche-grid');
+    state.niches.sort((a,b)=>a.order-b.order).forEach(n=>{
+      const c = el('button','niche-card'+(state.selectedNicheId===n.id?' selected':''));
+      const docCount = n.docs.reduce((s,g)=>s+g.items.length,0);
+      c.innerHTML = `
+        <div class="icon">${n.icon||'🏢'}</div>
+        <div class="label">${n.label}</div>
+        <div class="meta">${docCount} itens de escopo</div>
+        <div class="base">${fmtBRL(n.baseFee)}/mês · base</div>
+      `;
+      c.onclick = ()=>{ state.selectedNicheId = n.id; render(); };
+      grid.appendChild(c);
+    });
+    const add = el('button','niche-add','+ Adicionar nicho em Configurações');
+    add.onclick = ()=>{ state.settingsOpen = true; render(); };
+    grid.appendChild(add);
+    wrap.appendChild(grid);
+
+    wrap.appendChild(renderNav(false, !!state.selectedNicheId, ()=>{ state.step=2; render(); }));
+    return wrap;
+  }
+
+  function renderStepEscopo(){
+    const wrap = el('div');
+    const n = selectedNiche();
+    wrap.appendChild(el('div','step-head', `
+      <div class="eyebrow">Etapa 2 de 3</div>
+      <h1>Escopo da assessoria — ${n?n.label:''}</h1>
+      <p>Itens que compõem o pacote de assessoria preventiva e consultiva para este segmento, organizados pelas áreas de atuação do escritório.</p>
+    `));
+    if(!n){
+      wrap.appendChild(el('div','empty-note','Selecione um nicho na etapa anterior.'));
+    } else {
+      const list = el('div','scope-list');
+      n.docs.forEach(g=>{
+        const grp = el('div','scope-group');
+        grp.appendChild(el('h3', null, g.group));
+        g.items.forEach(it=>{
+          const row = el('div','scope-item');
+          row.innerHTML = `<span class="dot"></span><span>${it}</span>`;
+          grp.appendChild(row);
+        });
+        list.appendChild(grp);
+      });
+      wrap.appendChild(list);
+    }
+    wrap.appendChild(renderNav(true, true, ()=>{ state.step=1; render(); }, ()=>{ state.step=3; render(); }));
+    return wrap;
+  }
+
+  function renderStepPerfil(){
+    const wrap = el('div');
+    wrap.appendChild(el('div','step-head', `
+      <div class="eyebrow">Etapa 3 de 3</div>
+      <h1>Perfil do cliente</h1>
+      <p>Responda às perguntas abaixo para ajustar o honorário-base à complexidade real deste cliente. O resultado aparece no resumo ao lado.</p>
+    `));
+    const list = el('div','q-list');
+    FACTORS.forEach(f=>{
+      const card = el('div','q-card');
+      card.appendChild(el('div','q-label', f.label));
+      card.appendChild(el('div','q-hint', f.hint));
+      const opts = el('div','q-opts');
+      f.opts.forEach(o=>{
+        const b = el('button','opt-btn'+(state.answers[f.key]===o.v?' active':''));
+        const pct = o.v===1 ? `<span class="pct">+${state.settings.weights[f.key]}%</span>` : '';
+        b.innerHTML = o.l + pct;
+        b.onclick = ()=>{ state.answers[f.key]=o.v; render(); };
+        opts.appendChild(b);
+      });
+      card.appendChild(opts);
+      list.appendChild(card);
+    });
+    wrap.appendChild(list);
+    wrap.appendChild(renderNav(true, false, ()=>{ state.step=2; render(); }));
+    return wrap;
+  }
+
+  function renderNav(showBack, showNext, onBack, onNext){
+    const nav = el('div','step-nav');
+    const back = el('button','btn btn-secondary','← Voltar');
+    back.style.visibility = showBack ? 'visible' : 'hidden';
+    back.onclick = onBack;
+    nav.appendChild(back);
+    if(showNext){
+      const next = el('button','btn btn-primary','Próximo →');
+      next.onclick = onNext;
+      nav.appendChild(next);
+    } else {
+      nav.appendChild(el('span'));
+    }
+    return nav;
+  }
+
+  function renderSummary(){
+    const wrap = el('div','summary');
+    const card = el('div','card');
+    card.appendChild(el('h2', null, 'Resumo do orçamento'));
+
+    const n = selectedNiche();
+    if(!n){
+      card.appendChild(el('div','empty-note','Escolha um nicho para ver a estimativa de honorários.'));
+      wrap.appendChild(card);
+      return wrap;
+    }
+
+    card.appendChild(el('div','sum-niche', `${n.icon||''} ${n.label}`));
+
+    const chips = el('div');
+    FACTORS.forEach(f=>{
+      const on = state.answers[f.key]===1;
+      const chip = el('span','factor-chip'+(on?' on':''));
+      chip.textContent = (on ? '+'+state.settings.weights[f.key]+'%' : '—') + ' ' + f.short;
+      chips.appendChild(chip);
+    });
+    card.appendChild(chips);
+
+    const monthly = computeMonthly();
+    const hero = el('div','hero-figure');
+    hero.innerHTML = `<div class="label">Honorário mensal sugerido</div><div class="value mono">${fmtBRL(monthly)}</div>`;
+    card.appendChild(hero);
+
+    const subs = el('div','sub-figures');
+    subs.appendChild(rowLine('Base do nicho', fmtBRL(n.baseFee)));
+    subs.appendChild(rowLine('Multiplicador aplicado', '×' + computeMultiplier().toFixed(2)));
+    subs.appendChild(rowLine('Valor anual do contrato', fmtBRL(monthly*12)));
+    card.appendChild(subs);
+
+    const projRow = el('div','sum-line proj-row');
+    const projInput = el('input');
+    projInput.type='number'; projInput.min=1; projInput.max=99;
+    projInput.value = state.settings.projectionContracts;
+    projInput.oninput = (e)=>{ state.settings.projectionContracts = Math.max(1, parseInt(e.target.value||'1',10)); renderSummaryOnly(); };
+    projRow.innerHTML = `<span>Projeção — <span id="proj-n-slot"></span> contratos</span>`;
+    projRow.querySelector('#proj-n-slot').appendChild(projInput);
+    const projVal = el('b', null, fmtBRL(monthly*state.settings.projectionContracts) + '/mês');
+    projRow.appendChild(projVal);
+    card.appendChild(projRow);
+
+    const copyBtn = el('button','btn btn-secondary copy-btn','📋 Copiar resumo para proposta');
+    copyBtn.onclick = ()=>{
+      const text = `${n.label} — Proposta de assessoria\n\nHonorário mensal: ${fmtBRL(monthly)}\nValor anual do contrato: ${fmtBRL(monthly*12)}\n\nEscopo incluído:\n` +
+        n.docs.map(g=>`\n${g.group}:\n`+g.items.map(i=>'- '+i).join('\n')).join('\n');
+      navigator.clipboard && navigator.clipboard.writeText(text);
+      copyBtn.textContent = '✓ Copiado';
+      setTimeout(()=>{ copyBtn.innerHTML = '📋 Copiar resumo para proposta'; }, 1600);
+    };
+    card.appendChild(copyBtn);
+
+    card.appendChild(el('div','disclaimer','Estimativa de referência. O valor final depende da análise concreta do caso e não substitui a negociação direta com o cliente.'));
+
+    wrap.appendChild(card);
+    return wrap;
+  }
+
+  function rowLine(label, value){
+    const r = el('div','sum-line');
+    r.innerHTML = `<span>${label}</span><b>${value}</b>`;
+    return r;
+  }
+
+  // lightweight refresh for the projection-count input without losing focus
+  function renderSummaryOnly(){
+    const old = document.querySelector('.summary');
+    const fresh = renderSummary();
+    old.replaceWith(fresh);
+  }
+
+  /* ---------------- settings drawer ---------------- */
+  function renderSettingsDrawer(){
+    const backdrop = el('div','backdrop');
+    backdrop.onclick = (e)=>{ if(e.target===backdrop){ state.settingsOpen=false; render(); } };
+    const drawer = el('div','drawer');
+    drawer.onclick = (e)=>e.stopPropagation();
+
+    const head = el('div','drawer-head');
+    head.innerHTML = `<h2>Configurações</h2>`;
+    const closeBtn = el('button','icon-btn','✕');
+    closeBtn.onclick = ()=>{ state.settingsOpen=false; render(); };
+    head.appendChild(closeBtn);
+    drawer.appendChild(head);
+
+    drawer.appendChild(el('div',null,'<div class="field-label" style="margin-bottom:2px">Nichos</div><div style="font-size:12.5px;color:var(--ink-soft)">Ajuste o valor-base mensal e a lista de serviços de cada nicho.</div>'));
+
+    const nichesWrap = el('div');
+    nichesWrap.style.display='flex'; nichesWrap.style.flexDirection='column'; nichesWrap.style.gap='12px';
+    state.niches.forEach(n=>{
+      nichesWrap.appendChild(renderNicheEditor(n));
+    });
+    drawer.appendChild(nichesWrap);
+
+    const addNicheBtn = el('button','btn btn-secondary','+ Novo nicho');
+    addNicheBtn.style.alignSelf='flex-start';
+    addNicheBtn.onclick = ()=>{
+      const id = 'nicho-'+Date.now();
+      state.niches.push({ id, order: state.niches.length+1, icon:'🏢', label:'Novo nicho', baseFee:1200, docs:[{group:'Geral', items:['Descreva aqui o primeiro item de escopo']}] });
+      render();
+    };
+    drawer.appendChild(addNicheBtn);
+
+    drawer.appendChild(el('hr', null));
+
+    drawer.appendChild(el('div',null,'<div class="field-label">Pesos dos fatores de complexidade</div><div style="font-size:12.5px;color:var(--ink-soft);margin-bottom:8px">Percentual somado ao honorário-base quando a resposta aumenta a complexidade.</div>'));
+    FACTORS.forEach(f=>{
+      const row = el('div','weight-row');
+      const label = el('label', null, f.label);
+      const range = el('input');
+      range.type='range'; range.min=0; range.max=200; range.step=5;
+      range.value = state.settings.weights[f.key];
+      const val = el('span','wv','+'+state.settings.weights[f.key]+'%');
+      range.oninput = (e)=>{ state.settings.weights[f.key] = parseInt(e.target.value,10); val.textContent = '+'+e.target.value+'%'; };
+      row.appendChild(label); row.appendChild(range); row.appendChild(val);
+      drawer.appendChild(row);
+    });
+
+    const projField = el('div','field');
+    projField.innerHTML = `<span class="field-label">Nº de contratos na projeção</span>`;
+    const projInput = el('input');
+    projInput.type='number'; projInput.min=1; projInput.max=99; projInput.value = state.settings.projectionContracts;
+    projInput.style.width = '90px';
+    projInput.oninput = (e)=>{ state.settings.projectionContracts = Math.max(1, parseInt(e.target.value||'1',10)); };
+    projField.appendChild(projInput);
+    drawer.appendChild(projField);
+
+    const saveBar = el('div','save-bar');
+    const saveBtn = el('button','btn btn-primary','Salvar configurações');
+    saveBtn.style.width='100%'; saveBtn.style.justifyContent='center';
+    saveBtn.onclick = async ()=>{
+      saveBtn.textContent = 'Salvando…';
+      await persistAll();
+      saveBtn.textContent = '✓ Salvo';
+      setTimeout(()=>{ state.settingsOpen=false; render(); }, 500);
+    };
+    saveBar.appendChild(saveBtn);
+    drawer.appendChild(saveBar);
+
+    backdrop.appendChild(drawer);
+    return backdrop;
+  }
+
+  function renderNicheEditor(n){
+    const box = el('div','niche-edit');
+    const top = el('div','niche-edit-top');
+
+    const iconField = el('div','field icon-field');
+    iconField.innerHTML = `<span class="field-label">Ícone</span>`;
+    const iconInput = el('input'); iconInput.type='text'; iconInput.value = n.icon||''; iconInput.maxLength=2;
+    iconInput.oninput = e=>{ n.icon = e.target.value; };
+    iconField.appendChild(iconInput);
+    top.appendChild(iconField);
+
+    const labelField = el('div','field');
+    labelField.innerHTML = `<span class="field-label">Nome do nicho</span>`;
+    const labelInput = el('input'); labelInput.type='text'; labelInput.value=n.label;
+    labelInput.oninput = e=>{ n.label = e.target.value; };
+    labelField.appendChild(labelInput);
+    top.appendChild(labelField);
+
+    const baseField = el('div','field base-field');
+    baseField.innerHTML = `<span class="field-label">Base (R$/mês)</span>`;
+    const baseInput = el('input'); baseInput.type='number'; baseInput.min=0; baseInput.step=50; baseInput.value=n.baseFee;
+    baseInput.oninput = e=>{ n.baseFee = parseFloat(e.target.value||'0'); };
+    baseField.appendChild(baseInput);
+    top.appendChild(baseField);
+
+    box.appendChild(top);
+
+    const docsField = el('div','field');
+    docsField.style.marginTop = '8px';
+    docsField.innerHTML = `<span class="field-label">Itens de escopo (um por linha; use "Área:" para agrupar)</span>`;
+    const ta = el('textarea');
+    ta.value = n.docs.map(g=>`${g.group}:\n`+g.items.map(i=>'- '+i).join('\n')).join('\n\n');
+    ta.oninput = e=>{ n.docs = parseDocsText(e.target.value); };
+    docsField.appendChild(ta);
+    box.appendChild(docsField);
+
+    if(state.niches.length>1){
+      const rm = el('button','remove-niche','Remover nicho');
+      rm.onclick = async ()=>{
+        state.niches = state.niches.filter(x=>x.id!==n.id);
+        if(state.selectedNicheId===n.id) state.selectedNicheId = state.niches[0]?.id || null;
+        if(db){ try{ await db.doc('niches/'+n.id).delete(); }catch(e){} }
+        else saveLocal();
+        render();
+      };
+      box.appendChild(rm);
+    }
+    return box;
+  }
+
+  /* ---------------- POPs settings drawer ---------------- */
+  function renderPopSettingsDrawer(){
+    const backdrop = el('div','backdrop');
+    backdrop.onclick = (e)=>{ if(e.target===backdrop){ state.popSettingsOpen=false; render(); } };
+    const drawer = el('div','drawer');
+    drawer.onclick = (e)=>e.stopPropagation();
+
+    const head = el('div','drawer-head');
+    head.innerHTML = `<h2>Configurar setores (POPs)</h2>`;
+    const closeBtn = el('button','icon-btn','✕');
+    closeBtn.onclick = ()=>{ state.popSettingsOpen=false; render(); };
+    head.appendChild(closeBtn);
+    drawer.appendChild(head);
+
+    drawer.appendChild(el('div',null,'<div class="field-label" style="margin-bottom:2px">Setores</div><div style="font-size:12.5px;color:var(--ink-soft)">Ajuste o resumo e o conteúdo (procedimento) de cada setor, remova ou acrescente novos setores conforme o escritório for mudando.</div>'));
+
+    const wrap = el('div');
+    wrap.style.display='flex'; wrap.style.flexDirection='column'; wrap.style.gap='12px';
+    state.pops.slice().sort((a,b)=>a.order-b.order).forEach(p=>{
+      wrap.appendChild(renderPopEditor(p));
+    });
+    drawer.appendChild(wrap);
+
+    const addBtn = el('button','btn btn-secondary','+ Novo setor');
+    addBtn.style.alignSelf='flex-start';
+    addBtn.onclick = ()=>{
+      const id = 'setor-'+Date.now();
+      state.pops.push({ id, order: state.pops.length+1, icon:'🗂️', label:'Novo setor', resumo:'', docs:[{group:'Geral', items:['Descreva aqui o primeiro item do procedimento']}] });
+      render();
+    };
+    drawer.appendChild(addBtn);
+
+    const saveBar = el('div','save-bar');
+    const saveBtn = el('button','btn btn-primary','Salvar setores');
+    saveBtn.style.width='100%'; saveBtn.style.justifyContent='center';
+    saveBtn.onclick = async ()=>{
+      saveBtn.textContent = 'Salvando…';
+      await persistPops();
+      saveBtn.textContent = '✓ Salvo';
+      setTimeout(()=>{ state.popSettingsOpen=false; render(); }, 500);
+    };
+    saveBar.appendChild(saveBtn);
+    drawer.appendChild(saveBar);
+
+    backdrop.appendChild(drawer);
+    return backdrop;
+  }
+
+  function renderPopEditor(p){
+    const box = el('div','niche-edit');
+    const top = el('div','niche-edit-top');
+
+    const iconField = el('div','field icon-field');
+    iconField.innerHTML = `<span class="field-label">Ícone</span>`;
+    const iconInput = el('input'); iconInput.type='text'; iconInput.value = p.icon||''; iconInput.maxLength=2;
+    iconInput.oninput = e=>{ p.icon = e.target.value; };
+    iconField.appendChild(iconInput);
+    top.appendChild(iconField);
+
+    const labelField = el('div','field');
+    labelField.innerHTML = `<span class="field-label">Nome do setor</span>`;
+    const labelInput = el('input'); labelInput.type='text'; labelInput.value=p.label;
+    labelInput.oninput = e=>{ p.label = e.target.value; };
+    labelField.appendChild(labelInput);
+    top.appendChild(labelField);
+
+    box.appendChild(top);
+
+    const resumoField = el('div','field');
+    resumoField.style.marginTop = '8px';
+    resumoField.innerHTML = `<span class="field-label">Resumo (aparece no topo do setor)</span>`;
+    const resumoInput = el('input'); resumoInput.type='text'; resumoInput.value = p.resumo||'';
+    resumoInput.oninput = e=>{ p.resumo = e.target.value; };
+    resumoField.appendChild(resumoInput);
+    box.appendChild(resumoField);
+
+    const docsField = el('div','field');
+    docsField.style.marginTop = '8px';
+    docsField.innerHTML = `<span class="field-label">Procedimento (um item por linha; use "Nome do grupo:" para agrupar)</span>`;
+    const ta = el('textarea');
+    ta.style.minHeight = '180px';
+    ta.value = (p.docs||[]).map(g=>`${g.group}:\n`+g.items.map(i=>'- '+i).join('\n')).join('\n\n');
+    ta.oninput = e=>{ p.docs = parseDocsText(e.target.value); };
+    docsField.appendChild(ta);
+    box.appendChild(docsField);
+
+    if(state.pops.length>1){
+      const rm = el('button','remove-niche','Remover setor');
+      rm.onclick = async ()=>{
+        state.pops = state.pops.filter(x=>x.id!==p.id);
+        if(state.selectedPopId===p.id) state.selectedPopId = state.pops[0]?.id || null;
+        if(db){ try{ await db.doc('pops/'+p.id).delete(); }catch(e){} }
+        else saveLocal();
+        render();
+      };
+      box.appendChild(rm);
+    }
+    return box;
+  }
+
+  async function persistPops(){
+    if(!db){ saveLocal(); render(); return; }
+    try{
+      for(const p of state.pops){
+        await db.doc('pops/'+p.id).set({ order:p.order, icon:p.icon||'', label:p.label, resumo:p.resumo||'', docs:p.docs });
+      }
+      state.dbStatus='live';
+    }catch(e){ state.dbStatus='offline'; }
+  }
+
+  function parseDocsText(text){
+    const lines = text.split('\n');
+    const groups = [];
+    let current = null;
+    lines.forEach(raw=>{
+      const line = raw.trim();
+      if(!line) return;
+      if(line.endsWith(':')){
+        current = { group: line.slice(0,-1), items: [] };
+        groups.push(current);
+      } else {
+        if(!current){ current = { group:'Geral', items:[] }; groups.push(current); }
+        current.items.push(line.replace(/^[-•]\s*/, ''));
+      }
+    });
+    return groups.length ? groups : [{group:'Geral', items:[]}];
+  }
+
+  /* ---------------- persistence ---------------- */
+  // Cloud (claude artifact db) when available; localStorage fallback for standalone hosting.
+  function saveLocal(){
+    try{
+      localStorage.setItem(LS_KEY, JSON.stringify({ niches: state.niches, pops: state.pops, settings: state.settings }));
+      state.dbStatus = 'local';
+    }catch(e){ state.dbStatus = 'offline'; }
+  }
+
+  function loadLocal(){
+    try{
+      const raw = localStorage.getItem(LS_KEY);
+      if(raw){
+        const data = JSON.parse(raw);
+        if(Array.isArray(data.niches) && data.niches.length) state.niches = data.niches;
+        if(Array.isArray(data.pops) && data.pops.length) state.pops = data.pops;
+        if(data.settings && data.settings.weights) state.settings.weights = {...state.settings.weights, ...data.settings.weights};
+        if(data.settings && data.settings.projectionContracts) state.settings.projectionContracts = data.settings.projectionContracts;
+        if(!state.niches.find(n=>n.id===state.selectedNicheId)) state.selectedNicheId = state.niches[0]?.id || null;
+        if(!state.pops.find(p=>p.id===state.selectedPopId)) state.selectedPopId = state.pops[0]?.id || null;
+      }
+      state.dbStatus = 'local';
+    }catch(e){ state.dbStatus = 'offline'; }
+  }
+
+  async function persistAll(){
+    if(!db){ saveLocal(); render(); return; }
+    try{
+      for(const n of state.niches){
+        await db.doc('niches/'+n.id).set({ order:n.order, icon:n.icon||'', label:n.label, baseFee:n.baseFee, docs:n.docs });
+      }
+      await db.doc('settings/general').set({ weights: state.settings.weights, projectionContracts: state.settings.projectionContracts });
+      state.dbStatus='live';
+    }catch(e){ state.dbStatus='offline'; }
+  }
+
+  async function initDb(){
+    try{
+      db = (window.claude && window.claude.use) ? await window.claude.use('db') : null;
+    }catch(e){ db = null; }
+    if(!db){ loadLocal(); render(); return; }
+
+    try{
+      const snap = await db.collection('niches').get();
+      if(!snap.empty){
+        state.niches = snap.docs.map(d=>({ id:d.id, ...d.data() })).sort((a,b)=>(a.order||0)-(b.order||0));
+        if(!state.niches.find(n=>n.id===state.selectedNicheId)) state.selectedNicheId = state.niches[0]?.id || null;
+      }
+      const s = await db.doc('settings/general').get();
+      if(s.exists){
+        const data = s.data();
+        if(data.weights) state.settings.weights = {...state.settings.weights, ...data.weights};
+        if(data.projectionContracts) state.settings.projectionContracts = data.projectionContracts;
+      }
+      const popsSnap = await db.collection('pops').get();
+      if(!popsSnap.empty){
+        state.pops = popsSnap.docs.map(d=>({ id:d.id, ...d.data() })).sort((a,b)=>(a.order||0)-(b.order||0));
+        if(!state.pops.find(p=>p.id===state.selectedPopId)) state.selectedPopId = state.pops[0]?.id || null;
+      }
+      state.dbStatus='live';
+    }catch(e){ state.dbStatus='offline'; }
+    render();
+  }
+
+  render();
+  initDb();
+})();
+</script>
+
+</body>
+</html>
