@@ -1,0 +1,19 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 218" fill="none" role="img" aria-label="Salvador Vivas Advocacia">
+  <style>
+    .n { stroke:#0F2A58 }
+    .g { stroke:#9A9EA3 }
+    .k { stroke:#252C34 }
+    @media (prefers-color-scheme: dark) {
+      .n { stroke:#8FB3DD }
+      .g { stroke:#C5C9CE }
+      .k { stroke:#E8EDF2 }
+    }
+  </style>
+  <g stroke-width="15" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="2.2">
+    <path class="n" d="M42 58 L100 16"/>
+    <path class="g" d="M100 16 L158 58"/>
+    <path class="n" d="M146 98 L146 48 L90 48 L76 78 L174 170"/>
+    <path class="g" d="M38 72 L128 154 L100 202"/>
+    <path class="k" d="M34 138 L70 164 L40 184"/>
+  </g>
+</svg>

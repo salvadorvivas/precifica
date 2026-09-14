@@ -4,6 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Precifica — Salvador Vivas Advocacia</title>
+<link rel="icon" href="/logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:wght@400;500;600;700&family=Archivo:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
@@ -25,6 +26,9 @@
     --flag:#8C2F22;
     --flag-soft:#F5E3DF;
     --shadow: none;
+    --logo-navy:#0F2A58;
+    --logo-gray:#9A9EA3;
+    --logo-ink:#252C34;
     color-scheme: light;
   }
   @media (prefers-color-scheme: dark){
@@ -45,6 +49,9 @@
       --flag:#de8067;
       --flag-soft:#3a241d;
       --shadow: none;
+      --logo-navy:#8FB3DD;
+      --logo-gray:#C5C9CE;
+      --logo-ink:#E8EDF2;
       color-scheme: dark;
     }
   }
@@ -65,6 +72,9 @@
     --flag:#de8067;
     --flag-soft:#3a241d;
     --shadow: none;
+    --logo-navy:#8FB3DD;
+    --logo-gray:#C5C9CE;
+    --logo-ink:#E8EDF2;
     color-scheme: dark;
   }
 
@@ -125,12 +135,12 @@
   .pop-actions{ display:flex; gap:8px; padding:4px 24px 20px; }
   .brand{ display:flex; flex-direction:column; gap:2px; }
   .brand .mark{
-    width:40px; height:40px; border-radius:0;
-    background:var(--accent); color:var(--accent-ink);
-    display:flex; align-items:center; justify-content:center;
-    font-family:"Cormorant Garamond",serif; font-weight:600; font-size:17px;
-    margin-bottom:8px;
+    width:52px; height:56px; border-radius:0;
+    background:transparent; color:transparent;
+    display:block;
+    margin-bottom:10px;
   }
+  .brand .mark svg{ width:100%; height:100%; display:block; }
   .brand .name{ font-family:"Cormorant Garamond",serif; font-weight:600; font-size:23px; color:var(--accent); line-height:1; }
   .brand .tagline{ font-family:"JetBrains Mono",monospace; font-size:9.5px; letter-spacing:.2em; text-transform:uppercase; color:var(--ink-faint); margin-top:3px; }
 
@@ -296,7 +306,7 @@
     .rail{ position:static; gap:14px; min-width:0; max-width:100%; }
     .pop-list{ min-width:0; max-width:100%; }
     .brand{ flex-direction:row; align-items:center; gap:10px; flex-wrap:wrap; }
-    .brand .mark{ margin-bottom:0; width:34px; height:34px; font-size:15px; }
+    .brand .mark{ margin-bottom:0; width:40px; height:44px; }
     .brand .tagline{ width:100%; }
     .steps{ flex-direction:row; flex-wrap:wrap; gap:6px; }
     .steps li{ flex:none; }
@@ -1329,12 +1339,23 @@
     return e;
   }
 
+  const BRAND_MARK = `
+    <svg viewBox="0 0 200 218" fill="none" aria-hidden="true">
+      <g stroke-width="15" stroke-linecap="butt" stroke-linejoin="miter" stroke-miterlimit="2.2">
+        <path stroke="var(--logo-navy)" d="M42 58 L100 16"/>
+        <path stroke="var(--logo-gray)" d="M100 16 L158 58"/>
+        <path stroke="var(--logo-navy)" d="M146 98 L146 48 L90 48 L76 78 L174 170"/>
+        <path stroke="var(--logo-gray)" d="M38 72 L128 154 L100 202"/>
+        <path stroke="var(--logo-ink)" d="M34 138 L70 164 L40 184"/>
+      </g>
+    </svg>`;
+
   function renderRail(){
     const rail = el('div','rail');
 
     const brand = el('div','brand');
     brand.innerHTML = `
-      <div class="mark">SV</div>
+      <div class="mark">${BRAND_MARK}</div>
       <div class="name">Precifica</div>
       <div class="tagline">Salvador Vivas Advocacia · assessoria empresarial</div>
     `;
